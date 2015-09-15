@@ -1,11 +1,14 @@
 ## Promises Mongoose-Q Workshop
 
+- Learn how to use promises in mongoose to make our code easier to write and understand.
+
 - JavaScript is single threaded, we can't run the same code at the same time. We share a thread with other processes on the computer. As humans we are used to doing things in a multi threaded environment. We can type with multiple fingers at the same time, we can drive and talk, etc.
 
 - Things do not always happen in the same amount of time. Some things take longer than others and because of this we need to utilize promises or callbacks.
 
 - Why?
     Callback hell becomes real.
+
 ```
 fs.readdir(source, function(err, files) {
   if (err) {
@@ -61,8 +64,46 @@ setTimeout(function(){
 ```
 
 
+### Comparison
+What we have been doing:
+```
+router.get('/users', function(req, res, next) {
+  User.find(function(err, data){
+    if(err){
+      res.json({'message': err});
+    } else {
+      res.json(data);
+    }
+  });
+});
+
+```
+What is becomes:
+
+```
+router.get('/users', function(req, res, next) {
+  User.findQ()
+    .then(function (result) { res.json(result) })
+    .catch(function (err) {res.send(err) })
+    .done();
+});
+
+```
+
+### Setup
+https://www.npmjs.com/package/mongoose-q
+
+- We change our mongoose variable to use the module mongoose-q.
+
+```
+var mongoose = require('mongoose-q')(require('mongoose'), {spread:true});
+
+```
+
+### Exercise
+
 In this exercise we will use Mongoose-q to add promises to our database calls in a crud app.
-
 index.js is the current crud app, and we will be writing the new code in routs/users.js.
-
+The endpoints for our new routes will be /api/users, etc.
+The current endpoints are /users, etc.
 Use httpie or postman to check that your endpoints are working correctly.

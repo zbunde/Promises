@@ -13,11 +13,7 @@ router.get('/users', function(req, res, next) {
     if(err){
       res.json({'message': err});
     } else {
-      console.log(data)
-      var ids = data.map(function(user){
-            return user._id
-      });
-      res.json(ids);
+      res.json(data);
     }
   });
 });
